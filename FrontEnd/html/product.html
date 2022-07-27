@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>商品管理页</title>
+    <style>
+        .content {
+            width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .content>table {
+            width: 100%;
+            text-align: center;
+        }
+        
+        .content>table,
+        .content td,
+        .content th {
+            border: 1px solid #000;
+            border-collapse: collapse;
+        }
+        
+        .zz {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none;
+        }
+        
+        .zz .con {
+            width: 400px;
+            padding: 100px;
+            background: #fff;
+            margin: 0 auto;
+        }
+        
+        .zz>div {
+            display: none;
+        }
+        
+        .zz h1 {
+            text-align: center;
+            padding-top: 50px;
+        }
+        
+        .zz table {
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .zz button {
+            width: 60px;
+            height: 30px;
+        }
+        
+        .zz p {
+            text-align: center;
+        }
+        
+        .hide {
+            display: none !important;
+        }
+        
+        .show {
+            display: block !important;
+        }
+        
+        button {
+            width: 80px;
+            height: 30px;
+            background: rgb(0, 0, 0);
+            color: #fff;
+            border-radius: 5px;
+        }
+        
+        button:hover {
+            background-color: red;
+            cursor: pointer;
+        }
+        
+        img {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="zz">
+        <div class="con insert">
+            <h1>添加商品</h1>
+            <table>
+                <tr>
+                    <td>商品种类id:</td>
+                    <td><input type="text" class="categoryId" /></td>
+                </tr>
+                <tr>
+                    <td>商品编码:</td>
+                    <td><input type="text" class="code" /></td>
+                </tr>
+                <tr>
+                    <td>商品名称:</td>
+                    <td><input type="text" class="name" /></td>
+                </tr>
+                <tr>
+                    <td>商品副标题:</td>
+                    <td><input type="text" class="subtitle" /></td>
+                </tr>
+                <tr>
+                    <td>商品详细介绍:</td>
+                    <td><input type="text" class="detail" /></td>
+                </tr>
+                <tr>
+                    <td>商品价格:</td>
+                    <td><input type="text" class="price" /></td>
+                </tr>
+                <tr>
+                    <td>商品库存:</td>
+                    <td><input type="text" class="stock" /></td>
+                </tr>
+                <tr>
+                    <td>商品销量:</td>
+                    <td><input type="text" class="sales" /></td>
+                </tr>
+                <tr>
+                    <td>商品图片地址:</td>
+                    <td><input type="text" class="images" /></td>
+                </tr>
+                <tr>
+                    <td>商品是否推荐:</td>
+                    <td>
+                        是<input type="radio" value="1" checked name="commend" class="isCommend bj" /> 否
+
+                        <input type="radio" value="0" name="commend" class="qc isCommend" />
+                    </td>
+                </tr>
+            </table>
+            <p>
+                <button class="update">保存</button>
+                <button class="cancle">取消</button>
+            </p>
+        </div>
+        <div class="del con">
+            <h1>删除商品</h1>
+            <table>
+                <tr>
+                    <td>商品id:</td>
+                    <td><input type="text" class="delInp" /></td>
+                </tr>
+            </table>
+            <p>
+                <button class="confirm">确定</button>
+                <button class="cancle">取消</button>
+            </p>
+        </div>
+        <div class="updateSet con">
+            <h1>修改商品</h1>
+            <table>
+                <tr>
+                    <td>商品id:</td>
+                    <td><input type="text" class="idSet" /></td>
+                </tr>
+                <tr>
+                    <td>商品种类id:</td>
+                    <td><input type="text" class="categoryIdSet" /></td>
+                </tr>
+                <tr>
+                    <td>商品编码:</td>
+                    <td><input type="text" class="codeSet" /></td>
+                </tr>
+                <tr>
+                    <td>商品名称:</td>
+                    <td><input type="text" class="nameSet" /></td>
+                </tr>
+                <tr>
+                    <td>商品副标题:</td>
+                    <td><input type="text" class="subtitleSet" /></td>
+                </tr>
+                <tr>
+                    <td>商品详细介绍:</td>
+                    <td><input type="text" class="detailSet" /></td>
+                </tr>
+                <tr>
+                    <td>商品价格:</td>
+                    <td><input type="text" class="priceSet" /></td>
+                </tr>
+                <tr>
+                    <td>商品库存:</td>
+                    <td><input type="text" class="stockSet" /></td>
+                </tr>
+                <tr>
+                    <td>商品销量:</td>
+                    <td><input type="text" class="salesSet" /></td>
+                </tr>
+                <tr>
+                    <td>商品图片地址:</td>
+                    <td><input type="text" class="imagesSet" /></td>
+                </tr>
+                <tr>
+                    <td>商品是否推荐:</td>
+                    <td>
+                        是<input checked type="radio" value="1" name="commendSet" class="isCommendSet bj" /> 否
+
+                        <input type="radio" value="0" name="commendSet" class="isCommendSet qc" />
+                    </td>
+                </tr>
+            </table>
+            <p>
+                <button class="confirmSet">修改</button>
+                <button class="cancle">取消</button>
+            </p>
+        </div>
+        <!-- <div class="getMessage con">
+            <h1>查看类别</h1>
+            <table>
+                <tr>
+                    <td>商品id:</td>
+                    <td><input type="text" class="delInp" /></td>
+                </tr>
+            </table>
+            <p>
+                <button class="confirm">确定</button>
+                <button class="cancle">取消</button>
+            </p>
+        </div> -->
+    </div>
+    <div class="content">
+        <h1>商品管理页</h1>
+        <button class="add">添加</button>
+        <button class="delete">删除</button>
+        <button class="set">修改</button>
+        <table>
+            <tr>
+                <th>id</th>
+                <th>categoryId</th>
+                <th>code</th>
+                <th>name</th>
+                <th>subtitle</th>
+                <th>detail</th>
+                <th>price</th>
+                <th>stock</th>
+                <th>sales</th>
+                <th>images</th>
+                <th>isCommend</th>
+            </tr>
+        </table>
+    </div>
+</body>
+<script src="../js/jquery.js"></script>
+<script>
+    $.get(`http://localhost:8080/product/getList`, function(msg) {
+        console.log(msg);
+        $(".content table").append(
+            msg
+            .map((el, index) => {
+                return `<tr>
+                  <td>${el.id}</td>
+                  <th>${el.categoryId}</th>
+                  <th>${el.code}</th>
+                  <th>${el.name}</th>
+                  <th>${el.subtitle}</th>
+                  <th>${el.detail}</th>
+                  <th>${el.price}</th>
+                  <th>${el.stock}</th>
+                  <th>${el.sales}</th>
+                  <th>${el.images}<img src="../img/product/${el.images}"></th>
+                  <th><input class="chk" ${
+                    el.isCommend ? "checked" : ""
+                  } type="checkbox" name="isCommend"></th>
+              </tr>`;
+            })
+            .join("")
+        );
+        $(".add").click(function() {
+            $(".zz").addClass("show");
+            $(".zz>div").addClass("hide");
+            $(".zz>.insert").addClass("show");
+        });
+        $(".delete").click(function() {
+            $(".zz").addClass("show");
+            $(".zz>div").addClass("hide");
+            $(".zz>.del").addClass("show");
+        });
+        $(".set").click(function() {
+            $(".zz").addClass("show");
+            $(".zz>div").addClass("hide");
+            $(".zz .updateSet").addClass("show");
+        });
+        /*
+                                                                                                                                                                                                            $(".get").click(function() {
+                                                                                                                                                                                                                $(".zz").addClass("show");
+                                                                                                                                                                                                                $(".zz>div").addClass("hide");
+                                                                                                                                                                                                                $(".zz .getMessage").addClass("show");
+                                                                                                                                                                                                            });
+                                                                                                                                                                                                            */
+    });
+    $(".cancle").click(function() {
+        location.reload();
+    });
+    $(".update").click(function() {
+        $(this)
+            .parent()
+            .parent()
+            .find("input")
+            .each((index, el) => {
+                if (el.value == "") {
+                    alert("文本框不能为空！");
+                    throw Error("文本框不能为空");
+                } else {}
+            });
+        $.get(
+            `http://localhost:8080/product/add?categoryId=${$(
+          ".categoryId"
+        ).val()}&code=${$(".code").val()}&name=${$(".name").val()}&subtitle=${$(
+          ".subtitle"
+        ).val()}&detail=${$(".detail").val()}&price=${$(
+          ".price"
+        ).val()}&stock=${$(".stock").val()}&sales=${$(
+          ".sales"
+        ).val()}&images=${$(".images").val()}&isCommend=${$(
+          ".isCommend:checked"
+        ).val()}`,
+            function(msg) {
+                if (msg) {
+                    alert("商品添加成功!");
+                    location.reload();
+                } else {
+                    alert("商品添加失败!");
+                }
+            }
+        );
+    });
+    $(".confirmSet").click(function() {
+        $(this)
+            .parent()
+            .parent()
+            .find("input")
+            .each((index, el) => {
+                if (el.value == "") {
+                    alert("文本框不能为空！");
+                    throw Error("文本框不能为空");
+                }
+            });
+        $.get(
+            `http://localhost:8080/product/set?categoryId=${$(
+          ".categoryIdSet"
+        ).val()}&code=${$(".codeSet").val()}&name=${$(
+          ".nameSet"
+        ).val()}&subtitle=${$(".subtitleSet").val()}&detail=${$(
+          ".detailSet"
+        ).val()}&price=${$(".priceSet").val()}&stock=${$(
+          ".stockSet"
+        ).val()}&sales=${$(".salesSet").val()}&images=${$(
+          ".imagesSet"
+        ).val()}&isCommend=${$(".isCommendSet:checked").val()}&id=${$(
+          ".idSet"
+        ).val()}`,
+            function(msg) {
+                if (msg) {
+                    alert("商品修改成功!");
+                    location.reload();
+                } else {
+                    alert("商品修改失败!");
+                }
+            }
+        );
+    });
+    $(".confirm").click(function() {
+        $.get(
+            `http://localhost:8080/product/delete?id=${$(this)
+          .parent()
+          .parent()
+          .find(".delInp")
+          .val()}`,
+            function(msg) {
+                if (msg) {
+                    alert("商品类别删除成功!");
+                    location.reload();
+                } else {
+                    alert("商品类别删除失败!");
+                }
+            }
+        );
+    });
+</script>
+
+</html>

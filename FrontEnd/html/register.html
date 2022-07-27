@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>管理员/普通用户 注册页</title>
+    <link rel="stylesheet" href="../css/rest.css" />
+    <link rel="stylesheet" href="../css/common.css" />
+</head>
+
+<body>
+    <main>
+        <article>
+            <h1>注册</h1>
+            <form action="#" onsubmit="return false">
+                <p>
+                    <label for="username">用户名:</label>
+                    <input type="text" class="username" data-pattern="^[\d\w]{1,30}$" id="username" placeholder="请输入用户名" />
+                </p>
+                <p>
+                    <label for="password">密码:</label>
+                    <input type="password" data-pattern="^[\da-z]{1,30}$" class="password" id="password" placeholder="请输入密码" />
+                </p>
+                <p>
+                    <label for="notarize">确认密码:</label>
+                    <input type="password" class="confirm" id="notarize" placeholder="确认密码" />
+                </p>
+                <p>
+                    <label for="url">联系电话:</label>
+                    <input type="text" id="phone" data-pattern="^1[2-9][\d]{9}$" class="phone" placeholder="请输入联系电话" />
+                </p>
+                <p>
+                    <label for="email">邮箱:</label>
+                    <input type="email" id="email" data-pattern="^[\d\w]{2,10}@[\da-z]{2,10}\.(com|cn|net|org)$" class="email" placeholder="请输入邮箱" />
+                </p>
+                <p>
+                    <label for="url">收货地址:</label>
+                    <input type="text" data-pattern="^.{1,30}$" id="url" class="url" placeholder="请输入收货地址" />
+                </p>
+                <p style="text-align: center">
+                    <input checked type="radio" name="admin" id="login" value="0" />
+                    <label for="login">普通用户</label>
+                    <input type="radio" name="admin" id="adminlogin" value="1" />
+                    <label for="adminlogin">管理员</label>
+                </p>
+                <p>
+                    <button class="register">注册</button>
+                    <a href="./login.html">普通用户登录</a>
+                    <a href="./adminLogin.html">管理员登录</a>
+                </p>
+            </form>
+        </article>
+    </main>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/register.js"></script>
+</body>
+
+</html>

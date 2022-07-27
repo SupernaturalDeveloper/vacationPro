@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>类别管理页</title>
+    <style>
+        .content {
+            width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .content>table {
+            width: 100%;
+            text-align: center;
+        }
+        
+        .content>table,
+        .content td,
+        .content th {
+            border: 1px solid #000;
+            border-collapse: collapse;
+        }
+        
+        .zz {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none;
+        }
+        
+        .zz .con {
+            width: 400px;
+            height: 300px;
+            background: #fff;
+            margin: 0 auto;
+        }
+        
+        .zz>div {
+            display: none;
+        }
+        
+        .zz h1 {
+            text-align: center;
+            padding-top: 50px;
+        }
+        
+        .zz table {
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .zz button {
+            width: 60px;
+            height: 30px;
+        }
+        
+        .zz p {
+            text-align: center;
+        }
+        
+        .hide {
+            display: none !important;
+        }
+        
+        .show {
+            display: block !important;
+        }
+        
+        button {
+            width: 80px;
+            height: 30px;
+            background: rgb(0, 0, 0);
+            color: #fff;
+            border-radius: 5px;
+        }
+        
+        button:hover {
+            background-color: red;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="zz">
+        <div class="con insert">
+            <h1>添加类别</h1>
+            <table>
+                <tr>
+                    <td>商品编号:</td>
+                    <td><input type="text" class="code" /></td>
+                </tr>
+                <tr>
+                    <td>商品名称:</td>
+                    <td><input type="text" class="name" /></td>
+                </tr>
+                <tr>
+                    <td>商品序号:</td>
+                    <td><input type="text" class="sortorder" /></td>
+                </tr>
+            </table>
+            <p>
+                <button class="update">保存</button>
+                <button class="cancle">取消</button>
+            </p>
+        </div>
+        <div class="del con">
+            <h1>删除类别</h1>
+            <table>
+                <tr>
+                    <td>商品id:</td>
+                    <td><input type="text" class="delInp" /></td>
+                </tr>
+            </table>
+            <p>
+                <button class="confirm">确定</button>
+                <button class="cancle">取消</button>
+            </p>
+        </div>
+        <div class="updateSet con">
+            <h1>修改类别</h1>
+            <table>
+                <tr>
+                    <td>商品id:</td>
+                    <td><input type="text" class="setId" /></td>
+                </tr>
+                <tr>
+                    <td>商品编号:</td>
+                    <td><input type="text" class="setCode" /></td>
+                </tr>
+                <tr>
+                    <td>商品名称:</td>
+                    <td><input type="text" class="setName" /></td>
+                </tr>
+                <tr>
+                    <td>商品序号:</td>
+                    <td><input type="text" class="setSortorder" /></td>
+                </tr>
+            </table>
+            <p>
+                <button class="confirmSet">修改</button>
+                <button class="cancle">取消</button>
+            </p>
+        </div>
+        <!-- <div class="getMessage con">
+            <h1>查看类别</h1>
+            <table>
+                <tr>
+                    <td>商品id:</td>
+                    <td><input type="text" class="delInp" /></td>
+                </tr>
+            </table>
+            <p>
+                <button class="confirm">确定</button>
+                <button class="cancle">取消</button>
+            </p>
+        </div> -->
+    </div>
+    <div class="content">
+        <h1>类别管理页</h1>
+        <button class="add">添加</button>
+        <button class="delete">删除</button>
+        <button class="set">修改</button>
+        <table>
+            <tr>
+                <th>id</th>
+                <th>code</th>
+                <th>name</th>
+                <th>sortorder</th>
+            </tr>
+        </table>
+    </div>
+</body>
+<script src="../js/jquery.js"></script>
+<script>
+    $.get(`http://localhost:8080/category/get`, function(msg) {
+        console.log(msg);
+        $(".content table").append(
+            msg
+            .map((el, index) => {
+                //<button class="get">查看</button>
+                return `<tr>
+                  <td>${el.id}</td>
+                  <td>${el.code}</td>
+                  <td>${el.name}</td>
+                  <td>${el.sortorder}</td>
+              </tr>`;
+            })
+            .join("")
+        );
+        $(".add").click(function() {
+            $(".zz").addClass("show");
+            $(".zz>div").addClass("hide");
+            $(".zz>.insert").addClass("show");
+        });
+        $(".delete").click(function() {
+            $(".zz").addClass("show");
+            $(".zz>div").addClass("hide");
+            $(".zz>.del").addClass("show");
+        });
+        $(".set").click(function() {
+            $(".zz").addClass("show");
+            $(".zz>div").addClass("hide");
+            $(".zz .updateSet").addClass("show");
+        });
+        /*
+                                                        $(".get").click(function() {
+                                                            $(".zz").addClass("show");
+                                                            $(".zz>div").addClass("hide");
+                                                            $(".zz .getMessage").addClass("show");
+                                                        });
+                                                        */
+    });
+    $(".cancle").click(function() {
+        $(".zz input").each((index, el) => {
+            el.value = "";
+        });
+        $(this).parent().parent().removeClass("show");
+        $(".zz").removeClass("show");
+    });
+    $(".update").click(function() {
+        $(this)
+            .parent()
+            .parent()
+            .find("input")
+            .each((index, el) => {
+                if (el.value == "") {
+                    alert("文本框不能为空！");
+                    throw Error("文本框不能为空");
+                } else {}
+            });
+        $.get(
+            `http://localhost:8080/category/add?code=${$(".code").val()}&name=${$(
+          ".name"
+        ).val()}&sortorder=${$(".sortorder").val()}`,
+            function(msg) {
+                if (msg) {
+                    alert("商品类别添加成功!");
+                    location.reload();
+                } else {
+                    alert("商品类别添加失败!");
+                }
+            }
+        );
+    });
+    $(".confirmSet").click(function() {
+        $(this)
+            .parent()
+            .parent()
+            .find("input")
+            .each((index, el) => {
+                if (el.value == "") {
+                    alert("文本框不能为空！");
+                    throw Error("文本框不能为空");
+                } else {}
+            });
+        $.get(
+            `http://localhost:8080/category/set?code=${$(
+          ".setCode"
+        ).val()}&name=${$(".setName").val()}&sortorder=${$(
+          ".setSortorder"
+        ).val()}&id=${$(".setId").val()}`,
+            function(msg) {
+                if (msg) {
+                    alert("商品类别修改成功!");
+                    location.reload();
+                } else {
+                    alert("商品类别修改失败!");
+                }
+            }
+        );
+    });
+    $(".confirm").click(function() {
+        $.get(
+            `http://localhost:8080/category/delete?id=${$(this)
+          .parent()
+          .parent()
+          .find(".delInp")
+          .val()}`,
+            function(msg) {
+                if (msg) {
+                    alert("商品类别删除成功!");
+                    location.reload();
+                } else {
+                    alert("商品类别删除失败!");
+                }
+            }
+        );
+    });
+</script>
+
+</html>

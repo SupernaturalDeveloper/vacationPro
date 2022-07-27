@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>修改密码</title>
+    <link rel="stylesheet" href="../css/rest.css" />
+    <link rel="stylesheet" href="../css/common.css" />
+</head>
+
+<body>
+    <main>
+        <article>
+            <h1>修改密码</h1>
+            <form action="#" onsubmit="return false">
+                <p>
+                    <label>用户名:</label>
+                    <span class="user"></span>
+                </p>
+                <p>
+                    <label for="password">原密码:</label>
+                    <input type="password" data-pattern="^[\da-z]{1,30}$" class="password" id="password" placeholder="请输入原密码" />
+                </p>
+                <p>
+                    <label for="confirm_setPass">修改密码:</label>
+                    <input type="password" data-pattern="^[\da-z]{1,30}$" class="setPass" id="confirm_setPass" placeholder="请输入要修改的密码" />
+                </p>
+                <p>
+                    <button class="confirm_setPass">确认修改</button>
+                    <a href="./register.html">注册</a>
+                </p>
+            </form>
+        </article>
+    </main>
+    <script src="../js/jquery.js"></script>
+    <script>
+        $(".user").html(localStorage.getItem("username"));
+        $(".password").change(function(e) {
+            $.get(
+                `http://localhost:8080/user/confirmPassword?password=${$(
+            this
+          ).val()}&id=${localStorage.getItem("id")}`,
+                function(msg) {
+                    if (msg) {
+                        alert("原密码输入正确!");
+                    } else {
+                        alert("原密码输入错误,请重新输入!");
+                    }
+                    localStorage.setItem("confirmPassword", msg);
+                }
+            );
+        });
+        $(".confirm_setPass").click(function(e) {
+            const required_arr = [{
+                element: $(".password"),
+                desc: "原密码",
+            }, {
+                element: $(".setPass"),
+                desc: "修改密码",
+            }, ];
+            required_arr.forEach((el) => {
+                let reg = new RegExp(el.element.data("pattern"));
+                if (el.element.val() === "") {
+                    alert(`${el.desc}不能为空！`);
+                    throw Error(`${el.desc}不能为空！`);
+                }
+                if (!reg.test(el.element.val())) {
+                    alert(`${el.desc}验证规则错误！`);
+                    throw Error(`${el.desc}验证规则错误！`);
+                }
+            });
+            if ($(".password").val() === $(".setPass").val()) {
+                alert("修改的密码不能和原密码相同!!");
+                throw Error("修改的密码不能和原密码相同!!");
+            }
+            if (localStorage.getItem("confirmPassword") - 0) {
+                console.log(localStorage.getItem("confirmPassword"));
+                $.get(
+                    `http://localhost:8080/user/changePassword?id=${localStorage.getItem(
+              "id"
+            )}&password=${$(".setPass").val()}`,
+                    function(msg) {
+                        if (msg) {
+                            alert("密码修改成功,请重新登录!!");
+                            if (localStorage.getItem("role")) {
+                                location.href = "./login.html";
+                            } else {
+                                location.href = "./adminLogin.html";
+                            }
+                        } else {
+                            alert("密码修改失败!");
+                        }
+                    }
+                );
+            } else {
+                alert("原密码错误,请重新输入！");
+            }
+        });
+    </script>
+</body>
+
+</html>

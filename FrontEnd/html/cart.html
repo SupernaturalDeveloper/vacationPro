@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>购物车页面</title>
+    <style>
+        .con {
+            width: 1000px;
+            padding: 30px;
+            margin: 100px auto;
+            text-align: center;
+        }
+        
+        table {
+            width: 800px;
+            margin: 0 auto;
+        }
+        
+        td {
+            border: 1px solid #ccc;
+            overflow: hidden;
+            width: 15%;
+            text-align: center;
+        }
+        
+        h1,
+        h2 {
+            text-align: center;
+        }
+        
+        img {
+            width: 100px;
+            height: 100px;
+        }
+        
+        p {
+            padding: 0;
+            margin: 0;
+        }
+        
+        .num {
+            width: 60px;
+            height: 30px;
+        }
+        
+        .del {
+            cursor: pointer;
+        }
+        
+        .del:hover {
+            color: red;
+        }
+        
+        .zf {
+            width: 120px;
+            height: 50px;
+            margin-top: 30px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="con">
+        <h1>购物车</h1>
+        <h2 class="zj">总计:</h2>
+        <table>
+            <tr>
+                <th>商品</th>
+                <th>价格</th>
+                <th>数量</th>
+                <th>库存</th>
+                <th>总价格</th>
+                <th>操作</th>
+            </tr>
+        </table>
+        <button class="zf">去支付</button>
+    </div>
+    <script src="../js/jquery.js"></script>
+    <script>
+        $.get(
+            `http://localhost:8080/cart/getUserCart?userId=${localStorage.getItem(
+          "id"
+        )}`,
+            function(msg) {
+                console.log(msg);
+                $("table").append(
+                    msg
+                    .map((el) => {
+                        return ` <tr>
+                <td>
+                    <img src="../img/product/${el.images}" alt="" />
+                    <div class="detail">
+                        商品介绍:
+                        <p>${el.name}</p>
+                        <p>${el.subtitle}</p>
+                        <p>${el.detail}</p>
+                    </div>
+                </td>
+                <td>
+                    <h2 class="price">￥${el.price}</h2>
+                </td>
+                <td>
+                    <input type="number" price="${el.price}" userId="${el.userId}" productId="${el.productId}" value="${el.num}" class="num" />
+                    件
+                </td>
+                <td>
+                    <h2 class="stock">${el.stock}</h2>
+                </td>
+                <td>
+                    <h2 class="prices">￥${el.prices}</h2>
+                </td>
+                <td>
+                    <h2 class="del" idd="${el.id}" >删除商品</h2>
+                </td>
+            </tr>`;
+                    })
+                    .join("")
+                );
+                const num = [];
+                for (let el of msg) {
+                    num.push(el.prices - 0);
+                }
+                $(".del").on("click", function(e) {
+                    if (confirm("书否删除该商品??")) {
+                        $.get(
+                            `http://localhost:8080/cart/delete?id=${$(this).attr("idd")}`,
+                            function(msg) {
+                                if (msg) {
+                                    location.reload();
+                                }
+                            }
+                        );
+                    }
+                });
+                $(".zj").html(
+                    "总计:￥" +
+                    num.reduce(function(preSum, curVal, array) {
+                        return preSum + curVal;
+                    }, 0)
+                );
+                $(".num").on("change", $(".num"), function() {
+                    if (this.value - 0 <= 1) {
+                        this.value = 1;
+                    }
+                    if (
+                        this.value - 0 >=
+                        $(this).parent().parent().find(".stock").html() - 0
+                    ) {
+                        this.value = $(this).parent().parent().find(".stock").html() - 0;
+                    }
+
+                    $.get(
+                        `http://localhost:8080/cart/updateNum?num=${$(
+                this
+              ).val()}&productId=${$(this).attr("productid")}&userId=${$(
+                this
+              ).attr("userid")}`,
+                        function(msg) {
+                            console.log(1);
+                        }
+                    );
+                    $.get(
+                        `http://localhost:8080/cart/updatePrices?prices=${
+                ($(this).val() - 0) * $(this).attr("price")
+              }&productId=${$(this).attr("productid")}&userId=${$(this).attr(
+                "userid"
+              )}`,
+                        function(ss) {
+                            console.log(ss);
+                            location.reload();
+                        }
+                    );
+                });
+            }
+        );
+    </script>
+</body>
+
+</html>

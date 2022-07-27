@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>管理员页面</title>
+    <style>
+        #content {
+            width: 1000px;
+            margin: 0 auto;
+        }
+        
+        table {
+            width: 100%;
+        }
+        
+        table,
+        td,
+        th {
+            border: 1px solid #000;
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="content">
+        <h1></h1>
+        <table>
+            <tr>
+                <th>id</th>
+                <th>username</th>
+                <th>password</th>
+                <th>email</th>
+                <th>phone</th>
+                <th>url</th>
+                <th>role</th>
+                <th>createtime</th>
+            </tr>
+        </table>
+        <p>
+            <a href="category.html">类别管理</a>
+            <a href="product.html">商品管理</a>
+        </p>
+    </div>
+</body>
+<script src="../js/jquery.js"></script>
+<script>
+    $.get(`http://localhost:8080/user/getData`, function(msg) {
+        console.log(msg);
+        if (msg) {
+            $("h1").html(
+                "管理员:" + localStorage.getItem("username") + "的用户信息列表"
+            );
+            $("table").append(
+                msg
+                .map((el, index) => {
+                    if (el.role == 0) {
+                        return `<tr>
+                      <td>${el.id}</td>
+                      <td>${el.username}</td>
+                      <td>${el.password}</td>
+                      <td>${el.email}</td>
+                      <td>${el.phone}</td>
+                      <td>${el.url}</td>
+                      <td>${el.role}</td>
+                      <td>${el.createtime}</td>
+                  </tr>`;
+                    }
+                })
+                .join("")
+            );
+        }
+    });
+</script>
+
+</html>
